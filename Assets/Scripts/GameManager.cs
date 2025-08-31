@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Debug.Log("Game Manager Started");
+        Debug.Log("New feature added in the branch");
+        Debug.Log("Another log message");
     }
 
     // Update is called once per frame

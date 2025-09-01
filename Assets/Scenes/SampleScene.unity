@@ -340,71 +340,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1130490380 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3536634303831936419, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
-  m_PrefabInstance: {fileID: 6640016927227087676}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1130490384
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1130490380}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a8b83c4e9c60a64c96a068c12368953, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tarjeta: {fileID: 1130490380}
-  speedRotation: 10
---- !u!61 &1130490385
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1130490380}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!1 &1711809316
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,25 +435,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3339395126772835458, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
+      propertyPath: dorsoTarjeta
+      value: 
+      objectReference: {fileID: 5535820654720220417, guid: ff465a6d1342b9747a3d1351c75060dd, type: 3}
     - target: {fileID: 3536634303831936419, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
       propertyPath: m_Name
       value: Tarjeta
       objectReference: {fileID: 0}
     - target: {fileID: 4050474062932736738, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.9485
-      objectReference: {fileID: 0}
-    - target: {fileID: 4050474062932736738, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.5006
-      objectReference: {fileID: 0}
-    - target: {fileID: 4050474062932736738, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.509025
+      value: -3.7667
       objectReference: {fileID: 0}
     - target: {fileID: 4050474062932736738, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.3385668
+      value: 2.7678
       objectReference: {fileID: 0}
     - target: {fileID: 4050474062932736738, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
       propertyPath: m_LocalPosition.z
@@ -555,13 +486,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3536634303831936419, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1130490385}
-    - targetCorrespondingSourceObject: {fileID: 3536634303831936419, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1130490384}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

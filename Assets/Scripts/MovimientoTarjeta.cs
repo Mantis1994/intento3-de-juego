@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class MovimientoTarjeta : MonoBehaviour
@@ -6,9 +7,11 @@ public class MovimientoTarjeta : MonoBehaviour
 
     public GameObject tarjeta;
 
-    public float speedRotation = 10f;
 
     public bool girar = false;
+
+    public float duracion = 0.3f;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,17 +31,42 @@ public class MovimientoTarjeta : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (girar == false)
-            {
-                tarjeta.transform.localScale += new Vector3(0f, -(1.5006f * 2), 0f);
-                girar = true;
-            }
-            else if (girar == true)
-            {
-                tarjeta.transform.localScale += new Vector3(0f, (1.5006f * 2), 0f);
-                girar = false;
-            }
+           StartCoroutine(FlipTarjeta());
         }
+
+    }
+
+
+
+
+
+    IEnumerator FlipTarjeta()
+    {
+        girar = true; ;
+
+        Vector2 escalaInicial = transform.localScale;
+        Vector2 escalaIntermedia = new Vector2(0f, escalaInicial.y); ;
+        Vector2 escalaFinal = new Vector2(escalaInicial.x * -1, escalaInicial.y);
+
+        float tiempo = 0;
+
+        while (tiempo < duracion / 2)
+        {
+            tiempo += Time.deltaTime;
+            transform.localScale = Vector2.Lerp(escalaInicial, escalaIntermedia, tiempo / (duracion / 2));
+            yield return null;
+        }
+
+        tiempo = 0;
+
+        while (tiempo < duracion / 2)
+        {
+            tiempo += Time.deltaTime;
+            transform.localScale = Vector2.Lerp(escalaIntermedia, escalaFinal, tiempo / (duracion / 2));
+            yield return null;
+        }
+
+        girar = false;
 
     }
 }

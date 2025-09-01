@@ -7,8 +7,14 @@ public class MovimientoTarjeta : MonoBehaviour
 
     public GameObject tarjeta;
 
+    public SpriteRenderer sr;
 
-    public bool girar = false;
+    public Sprite dorsoTarjeta;
+    public Sprite frenteTarjeta;
+
+
+    public bool girando = false;
+    public bool volteada = false;
 
     public float duracion = 0.3f;
 
@@ -16,7 +22,7 @@ public class MovimientoTarjeta : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        sr = tarjeta.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -31,7 +37,7 @@ public class MovimientoTarjeta : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-           StartCoroutine(FlipTarjeta());
+            StartCoroutine(FlipTarjeta());
         }
 
     }
@@ -39,10 +45,11 @@ public class MovimientoTarjeta : MonoBehaviour
 
 
 
-
+    // EL ENUMERATOR ES PARA HACER EL FLIP DE LA TARJETA, ADEMAS CUANDO LLEGA A LA MITAD SE CAMBIA EL SPRITE POR LA DEL DORSODE LA TARJETA
     IEnumerator FlipTarjeta()
     {
-        girar = true; ;
+        girando = true;
+        volteada = !volteada;
 
         Vector2 escalaInicial = transform.localScale;
         Vector2 escalaIntermedia = new Vector2(0f, escalaInicial.y); ;
@@ -57,6 +64,21 @@ public class MovimientoTarjeta : MonoBehaviour
             yield return null;
         }
 
+
+        
+
+        if (volteada)
+        {
+            sr.sprite = dorsoTarjeta;
+
+        }
+        else
+        {
+            sr.sprite = frenteTarjeta;
+        }
+
+
+
         tiempo = 0;
 
         while (tiempo < duracion / 2)
@@ -66,7 +88,7 @@ public class MovimientoTarjeta : MonoBehaviour
             yield return null;
         }
 
-        girar = false;
+        girando = false;
 
     }
 }

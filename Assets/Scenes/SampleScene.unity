@@ -483,6 +483,42 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4123103202641188373, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
+      propertyPath: m_Size.x
+      value: 0.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 4123103202641188373, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
+      propertyPath: m_Size.y
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4123103202641188373, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 5535820654720220417, guid: ff465a6d1342b9747a3d1351c75060dd, type: 3}
+    - target: {fileID: 4123103202641188373, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4123103202641188373, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8219733567769824998, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.x
+      value: 4.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8219733567769824998, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.y
+      value: 2.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 8219733567769824998, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 4.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 8219733567769824998, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 2.96
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

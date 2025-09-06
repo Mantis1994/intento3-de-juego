@@ -50,7 +50,6 @@ public class MovimientoTarjeta : MonoBehaviour
     {
         girando = true;
         volteada = !volteada;
-
         Vector2 escalaInicial = transform.localScale;
         Vector2 escalaIntermedia = new Vector2(0f, escalaInicial.y); ;
         Vector2 escalaFinal = new Vector2(escalaInicial.x * -1, escalaInicial.y);
@@ -67,7 +66,7 @@ public class MovimientoTarjeta : MonoBehaviour
 
         
 
-        if (volteada)
+        if (volteada == false)
         {
             sr.sprite = dorsoTarjeta;
 

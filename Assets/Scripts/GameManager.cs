@@ -9,6 +9,12 @@ public class GameManager : MonoBehaviour
 
     private List<Sprite> imagenesParaTablero = new List<Sprite>();
 
+    public MovimientoTarjeta primerTarjeta;
+    public MovimientoTarjeta segundaTarjeta;
+
+    public float tiempoEspera = 0.5f;
+    public bool comparando = false;
+
     public int filas = 2;
     public int columnas = 6;
     public float separacion = 1.2f;
@@ -67,6 +73,54 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+
+    public void CompararTarjetas(MovimientoTarjeta tarjeta)
+    {
+        if (primerTarjeta == null)
+        {
+            primerTarjeta = tarjeta;
+        }
+        else if (segundaTarjeta == null && tarjeta != primerTarjeta)
+        {
+            segundaTarjeta = tarjeta;
+            comparando = true;
+            StartCoroutine(VerificarCoincidencia());
+
+        }
+    }
+
+
+    IEnumerator<WaitForSeconds> VerificarCoincidencia()
+    {
+
+        yield return new WaitForSeconds(tiempoEspera);
+
+        if (primerTarjeta.frenteTarjeta == segundaTarjeta.frenteTarjeta)
+        {
+            // Coincidencia encontrada
+            Destroy(primerTarjeta.gameObject);
+            Destroy(segundaTarjeta.gameObject);
+        }
+        else
+        {
+            // No hay coincidencia, voltear las tarjetas de nuevo
+            primerTarjeta.Ocultar();
+            segundaTarjeta.Ocultar();
+        }
+
+        primerTarjeta = null;
+        segundaTarjeta = null;
+        comparando = false;
+       
+    }
+
+
+
+
+
+
+
 }
 
 

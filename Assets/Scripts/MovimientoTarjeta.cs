@@ -9,12 +9,12 @@ public class MovimientoTarjeta : MonoBehaviour
 
     public GameObject tarjeta;
 
+    public GameManager gameManager;
+
     public SpriteRenderer sr;
 
     public Sprite dorsoTarjeta;
     public Sprite frenteTarjeta;
-
-    public List<Sprite> listaFrentes;
 
 
     public bool girando = false;
@@ -27,6 +27,7 @@ public class MovimientoTarjeta : MonoBehaviour
     void Start()
     {
         sr = tarjeta.GetComponent<SpriteRenderer>();
+        gameManager = FindFirstObjectByType<GameManager>();
     }
 
     // Update is called once per frame
@@ -35,11 +36,11 @@ public class MovimientoTarjeta : MonoBehaviour
 
     }
 
-
+    // Detecta el click en la tarjeta y llama al flip si no esta girando o volteada
     void OnMouseOver()
     {
 
-        if (Input.GetMouseButtonDown(0)&&!girando)
+        if (Input.GetMouseButtonDown(0) && !girando && !volteada && gameManager.comparando == false)
         {
             StartCoroutine(FlipTarjeta());
         }
@@ -50,7 +51,7 @@ public class MovimientoTarjeta : MonoBehaviour
 
 
     // EL ENUMERATOR ES PARA HACER EL FLIP DE LA TARJETA, ADEMAS CUANDO LLEGA A LA MITAD SE CAMBIA EL SPRITE POR LA DEL DORSODE LA TARJETA
-    IEnumerator FlipTarjeta()
+    public IEnumerator FlipTarjeta()
     {
         girando = true;
         volteada = !volteada;
@@ -68,9 +69,9 @@ public class MovimientoTarjeta : MonoBehaviour
         }
 
 
-        
 
-        if (volteada ==false)
+
+        if (volteada == false)
         {
             sr.sprite = dorsoTarjeta;
 
@@ -93,5 +94,19 @@ public class MovimientoTarjeta : MonoBehaviour
 
         girando = false;
 
+        if (volteada)
+        {
+            FindFirstObjectByType<GameManager>().CompararTarjetas(this);
+        }
+    }
+
+
+    // Oculta la tarjeta una vez comparadas
+    public void Ocultar()
+    {
+        if (volteada && !girando)
+        {
+            StartCoroutine(FlipTarjeta());
+        }
     }
 }

@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using UnityEditor.U2D.Animation;
 using UnityEngine;
 
 public class MovimientoTarjeta : MonoBehaviour
@@ -11,6 +13,8 @@ public class MovimientoTarjeta : MonoBehaviour
 
     public Sprite dorsoTarjeta;
     public Sprite frenteTarjeta;
+
+    public List<Sprite> listaFrentes;
 
 
     public bool girando = false;
@@ -35,7 +39,7 @@ public class MovimientoTarjeta : MonoBehaviour
     void OnMouseOver()
     {
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0)&&!girando)
         {
             StartCoroutine(FlipTarjeta());
         }
@@ -50,7 +54,6 @@ public class MovimientoTarjeta : MonoBehaviour
     {
         girando = true;
         volteada = !volteada;
-
         Vector2 escalaInicial = transform.localScale;
         Vector2 escalaIntermedia = new Vector2(0f, escalaInicial.y); ;
         Vector2 escalaFinal = new Vector2(escalaInicial.x * -1, escalaInicial.y);
@@ -67,14 +70,14 @@ public class MovimientoTarjeta : MonoBehaviour
 
         
 
-        if (volteada)
+        if (volteada ==false)
         {
             sr.sprite = dorsoTarjeta;
 
         }
         else
         {
-            sr.sprite = frenteTarjeta;
+            sr.sprite = listaFrentes[Random.Range(0, listaFrentes.Count)];
         }
 
 

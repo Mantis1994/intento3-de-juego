@@ -436,9 +436,37 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3339395126772835458, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
-      propertyPath: dorsoTarjeta
+      propertyPath: frenteTarjeta
       value: 
-      objectReference: {fileID: 5535820654720220417, guid: ff465a6d1342b9747a3d1351c75060dd, type: 3}
+      objectReference: {fileID: -7453955631013775139, guid: dfa99540e697ee740901e17a164fb7b5, type: 3}
+    - target: {fileID: 3339395126772835458, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
+      propertyPath: listaFrentes.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3339395126772835458, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
+      propertyPath: 'listaFrentes.Array.data[0]'
+      value: 
+      objectReference: {fileID: 6071235646898848531, guid: be5289cd2501bad4bbc5050783954e4b, type: 3}
+    - target: {fileID: 3339395126772835458, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
+      propertyPath: 'listaFrentes.Array.data[1]'
+      value: 
+      objectReference: {fileID: -7453955631013775139, guid: dfa99540e697ee740901e17a164fb7b5, type: 3}
+    - target: {fileID: 3339395126772835458, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
+      propertyPath: 'listaFrentes.Array.data[2]'
+      value: 
+      objectReference: {fileID: -6350219425847431076, guid: d1c3d88f0facdcc46aa0eaed58ea6a14, type: 3}
+    - target: {fileID: 3339395126772835458, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
+      propertyPath: 'listaFrentes.Array.data[3]'
+      value: 
+      objectReference: {fileID: -5711848221618334454, guid: 60864a521f95d6b41af9c5fac4440aef, type: 3}
+    - target: {fileID: 3339395126772835458, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
+      propertyPath: 'listaFrentes.Array.data[4]'
+      value: 
+      objectReference: {fileID: 5473147426102584597, guid: bff57be1869c93d4bbb613a2abb792c9, type: 3}
+    - target: {fileID: 3339395126772835458, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
+      propertyPath: 'listaFrentes.Array.data[5]'
+      value: 
+      objectReference: {fileID: 2391452195964285744, guid: 891c4d3ba28fdee45b03c398e81d7f6f, type: 3}
     - target: {fileID: 3536634303831936419, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
       propertyPath: m_Name
       value: Tarjeta

@@ -78,12 +78,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: acb7c206317a270418ca5aba31f51413, type: 3}
+  m_Sprite: {fileID: 5535820654720220417, guid: ff465a6d1342b9747a3d1351c75060dd, type: 3}
   m_Color: {r: 0.9622642, g: 0.9622642, b: 0.9622642, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 0.4, y: 0.34}
+  m_Size: {x: 0.33, y: 0.3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -127,8 +127,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 50, y: 37.625}
-    newSize: {x: 0.4, y: 0.34}
+    oldSize: {x: 4.35, y: 2.96}
+    newSize: {x: 0.33, y: 0.3}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
     adaptiveTiling: 0
@@ -149,8 +149,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tarjeta: {fileID: 3536634303831936419}
   sr: {fileID: 0}
-  dorsoTarjeta: {fileID: -1375888665248720719, guid: 093d99c8423165041ac57ecbb5950467, type: 3}
+  dorsoTarjeta: {fileID: 5535820654720220417, guid: ff465a6d1342b9747a3d1351c75060dd, type: 3}
   frenteTarjeta: {fileID: 21300000, guid: acb7c206317a270418ca5aba31f51413, type: 3}
-  girar: 0
+  girando: 0
   volteada: 0
   duracion: 0.5

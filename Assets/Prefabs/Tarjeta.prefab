@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.95, y: 2.81, z: -5}
-  m_LocalScale: {x: 5.344409, y: 3.5905857, z: 1}
+  m_LocalScale: {x: 0.5182218, y: 0.48493925, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -123,7 +123,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.10008335, y: 0.00000023841858}
+  m_Offset: {x: -0.002579987, y: 0.0031212643}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -133,7 +133,7 @@ BoxCollider2D:
     drawMode: 1
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 16.212626, y: 12.837505}
+  m_Size: {x: 0.3398401, y: 0.30649483}
   m_EdgeRadius: 0
 --- !u!114 &3339395126772835458
 MonoBehaviour:
@@ -150,7 +150,14 @@ MonoBehaviour:
   tarjeta: {fileID: 3536634303831936419}
   sr: {fileID: 0}
   dorsoTarjeta: {fileID: 5535820654720220417, guid: ff465a6d1342b9747a3d1351c75060dd, type: 3}
-  frenteTarjeta: {fileID: 21300000, guid: acb7c206317a270418ca5aba31f51413, type: 3}
+  frenteTarjeta: {fileID: -7453955631013775139, guid: dfa99540e697ee740901e17a164fb7b5, type: 3}
+  listaFrentes:
+  - {fileID: 6071235646898848531, guid: be5289cd2501bad4bbc5050783954e4b, type: 3}
+  - {fileID: -7453955631013775139, guid: dfa99540e697ee740901e17a164fb7b5, type: 3}
+  - {fileID: -6350219425847431076, guid: d1c3d88f0facdcc46aa0eaed58ea6a14, type: 3}
+  - {fileID: -5711848221618334454, guid: 60864a521f95d6b41af9c5fac4440aef, type: 3}
+  - {fileID: 5473147426102584597, guid: bff57be1869c93d4bbb613a2abb792c9, type: 3}
+  - {fileID: 2391452195964285744, guid: 891c4d3ba28fdee45b03c398e81d7f6f, type: 3}
   girando: 0
   volteada: 0
   duracion: 0.5

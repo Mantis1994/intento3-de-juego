@@ -77,7 +77,7 @@ public class MovimientoTarjeta : MonoBehaviour
         }
         else
         {
-            sr.sprite = listaFrentes[Random.Range(0, listaFrentes.Count)];
+            sr.sprite = frenteTarjeta; // Usa la imagen fija asignada por GameManager
         }
 
 

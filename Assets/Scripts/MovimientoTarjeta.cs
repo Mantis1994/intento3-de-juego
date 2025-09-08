@@ -6,7 +6,7 @@ using UnityEngine;
 public class MovimientoTarjeta : MonoBehaviour
 {
 
-
+    public string personajeID; // Asignado por GameManager
     public GameObject tarjeta;
 
     public GameManager gameManager;
@@ -27,7 +27,7 @@ public class MovimientoTarjeta : MonoBehaviour
     void Start()
     {
         sr = tarjeta.GetComponent<SpriteRenderer>();
-        gameManager = FindFirstObjectByType<GameManager>();
+        gameManager = GameManager.Instance;
     }
 
     // Update is called once per frame
@@ -79,6 +79,7 @@ public class MovimientoTarjeta : MonoBehaviour
         else
         {
             sr.sprite = frenteTarjeta; // Usa la imagen fija asignada por GameManager
+           
         }
 
 
@@ -96,7 +97,7 @@ public class MovimientoTarjeta : MonoBehaviour
 
         if (volteada)
         {
-            FindFirstObjectByType<GameManager>().CompararTarjetas(this);
+            gameManager.CompararTarjetas(this);
         }
     }
 

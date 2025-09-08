@@ -9,45 +9,89 @@ public class GameManager : MonoBehaviour
 
     private List<Sprite> imagenesParaTablero = new List<Sprite>();
 
+    // Nueva lista para los IDs de personajes
+    public List<string> personajes; // Ejemplo: "Killa", "Knight", ...  
+    private List<string> personajesParaTablero = new List<string>();
+
     public MovimientoTarjeta primerTarjeta;
     public MovimientoTarjeta segundaTarjeta;
 
     public float tiempoEspera = 0.5f;
     public bool comparando = false;
+    public bool coincidenciaEncontrada = false;
 
     public int filas = 2;
     public int columnas = 6;
     public float separacion = 1.2f;
 
+
+
+
+
+
+
+
+    public static GameManager Instance { get; private set; }
+
     void Start()
     {
+        if (Instance == null)
+            Instance = this;
+        else
+        {
+            Destroy(gameObject);
+        }
+
+
+
         PrepararImagenes();
         SpawnearTablero();
     }
 
     void PrepararImagenes()
     {
-        imagenesParaTablero.Clear();
-        // Repetir cada imagen 2 veces
-        foreach (var img in imagenes)
+        if (imagenes.Count != personajes.Count)
         {
-            imagenesParaTablero.Add(img);
-            imagenesParaTablero.Add(img);
+            Debug.LogError("La cantidad de imágenes y personajes debe ser igual.");
+            return;
+        }
+        imagenesParaTablero.Clear();
+        personajesParaTablero.Clear();
+        // Repetir cada imagen 2 veces
+        for (int i = 0; i < imagenes.Count; i++)
+        {
+            imagenesParaTablero.Add(imagenes[i]);
+            imagenesParaTablero.Add(imagenes[i]);
+            personajesParaTablero.Add(personajes[i]);
+            personajesParaTablero.Add(personajes[i]);
         }
 
-        // Mezclar la lista
+
         for (int i = 0; i < imagenesParaTablero.Count; i++)
         {
-            Sprite temp = imagenesParaTablero[i];
-            int randomIndex = Random.Range(i, imagenesParaTablero.Count);
+            int randomIndex = UnityEngine.Random.Range(i, imagenesParaTablero.Count);
+
+            // Mezclar imagenes
+            Sprite tempImg = imagenesParaTablero[i];
             imagenesParaTablero[i] = imagenesParaTablero[randomIndex];
-            imagenesParaTablero[randomIndex] = temp;
+            imagenesParaTablero[randomIndex] = tempImg;
+
+            // Mezclar personajes
+            string tempID = personajesParaTablero[i];
+            personajesParaTablero[i] = personajesParaTablero[randomIndex];
+            personajesParaTablero[randomIndex] = tempID;
         }
     }
 
     void SpawnearTablero()
     {
         int indiceImagen = 0;
+        int totalCartas = filas * columnas;
+    if (totalCartas != imagenesParaTablero.Count)
+    {
+        Debug.LogError("La cantidad de cartas a crear (" + totalCartas + ") no coincide con la cantidad de imágenes/personajes preparados (" + imagenesParaTablero.Count + ").");
+        return;
+    }
 
         // Calcular el offset para centrar el tablero
         float offsetX = (columnas - 1) * separacion / 2f;
@@ -67,8 +111,9 @@ public class GameManager : MonoBehaviour
                 // Asignar el sprite correspondiente a la carta
                 MovimientoTarjeta mt = carta.GetComponent<MovimientoTarjeta>();
                 mt.frenteTarjeta = imagenesParaTablero[indiceImagen];
-                // mt.dorsoTarjeta = ... // Asigna aquí el dorso si lo necesitas
+
                 mt.sr = carta.GetComponent<SpriteRenderer>();
+                mt.personajeID = personajesParaTablero[indiceImagen]; // <--- NUEVO
                 indiceImagen++;
             }
         }
@@ -99,12 +144,15 @@ public class GameManager : MonoBehaviour
         if (primerTarjeta.frenteTarjeta == segundaTarjeta.frenteTarjeta)
         {
             // Coincidencia encontrada
+            coincidenciaEncontrada = true;
+            AudioManager.Instance.PlaySFX(primerTarjeta.personajeID); // Reproduce la voz del personaje
             Destroy(primerTarjeta.gameObject);
             Destroy(segundaTarjeta.gameObject);
         }
         else
         {
             // No hay coincidencia, voltear las tarjetas de nuevo
+            coincidenciaEncontrada = false;
             primerTarjeta.Ocultar();
             segundaTarjeta.Ocultar();
         }
@@ -112,7 +160,7 @@ public class GameManager : MonoBehaviour
         primerTarjeta = null;
         segundaTarjeta = null;
         comparando = false;
-       
+
     }
 
 

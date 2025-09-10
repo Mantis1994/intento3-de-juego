@@ -2,7 +2,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 public class GameManager : MonoBehaviour
 {
     public GameObject tarjetaPrefab;

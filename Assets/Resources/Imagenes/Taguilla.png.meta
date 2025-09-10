@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Taguilla_0: 5473147426102584597
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

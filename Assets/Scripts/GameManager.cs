@@ -1,6 +1,8 @@
 
 using UnityEngine;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 public class GameManager : MonoBehaviour
 {
     public GameObject tarjetaPrefab;
@@ -24,8 +26,32 @@ public class GameManager : MonoBehaviour
     public int columnas = 6;
     public float separacion = 1.2f;
 
+    public TextMeshProUGUI score;
+    private int puntuacionActual = 0;
+
+    public TextMeshProUGUI timerText;
+
+    public int errores = 0;
+    private float tiempoRestante = 60f; // Tiempo en segundos
 
 
+
+    private void Update()
+    {
+        if (tiempoRestante > 0)
+        {
+
+            tiempoRestante -= Time.deltaTime;
+
+            timerText.text = Mathf.Ceil(tiempoRestante).ToString();
+        }
+        else
+        {
+            // Tiempo agotado
+            timerText.text = "0";
+            // Aquí puedes agregar la lógica para manejar el fin del tiempo
+        }
+    }
 
 
 
@@ -41,7 +67,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
+        puntuacionActual = 0;
+        score.text = puntuacionActual.ToString();
 
 
         PrepararImagenes();
@@ -87,11 +114,11 @@ public class GameManager : MonoBehaviour
     {
         int indiceImagen = 0;
         int totalCartas = filas * columnas;
-    if (totalCartas != imagenesParaTablero.Count)
-    {
-        Debug.LogError("La cantidad de cartas a crear (" + totalCartas + ") no coincide con la cantidad de imágenes/personajes preparados (" + imagenesParaTablero.Count + ").");
-        return;
-    }
+        if (totalCartas != imagenesParaTablero.Count)
+        {
+            Debug.LogError("La cantidad de cartas a crear (" + totalCartas + ") no coincide con la cantidad de imágenes/personajes preparados (" + imagenesParaTablero.Count + ").");
+            return;
+        }
 
         // Calcular el offset para centrar el tablero
         float offsetX = (columnas - 1) * separacion / 2f;
@@ -146,6 +173,9 @@ public class GameManager : MonoBehaviour
             // Coincidencia encontrada
             coincidenciaEncontrada = true;
             AudioManager.Instance.PlaySFX(primerTarjeta.personajeID); // Reproduce la voz del personaje
+            ActualizarScore(10); // Sumar puntos por coincidencia
+
+            // Destruir las tarjetas coincidentes
             Destroy(primerTarjeta.gameObject);
             Destroy(segundaTarjeta.gameObject);
         }
@@ -153,6 +183,7 @@ public class GameManager : MonoBehaviour
         {
             // No hay coincidencia, voltear las tarjetas de nuevo
             coincidenciaEncontrada = false;
+            errores++;
             primerTarjeta.Ocultar();
             segundaTarjeta.Ocultar();
         }
@@ -161,6 +192,16 @@ public class GameManager : MonoBehaviour
         segundaTarjeta = null;
         comparando = false;
 
+    }
+
+
+    public void ActualizarScore(int puntos)
+    {
+        
+        puntuacionActual = int.Parse(score.text);
+        puntuacionActual += puntos;
+        score.text = puntuacionActual.ToString();
+        
     }
 
 

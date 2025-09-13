@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour
     public float separacion = 1.2f;
 
     public TextMeshProUGUI score;
+
+    public TextMeshProUGUI usuarioText;
     private int puntuacionActual = 0;
 
     public TextMeshProUGUI timerText;
@@ -45,7 +47,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (tiempoRestante > 0)
+        if (tiempoRestante > 0 && inGame == true)
         {
 
             tiempoRestante -= Time.deltaTime;
@@ -93,6 +95,7 @@ public class GameManager : MonoBehaviour
         comparando = false;
         coincidenciaEncontrada = false;
         tarjetasEnTablero.Clear();
+        usuarioText.text = MenuManager.nombreUsuario;
 
 
 
@@ -218,6 +221,14 @@ public class GameManager : MonoBehaviour
                 inGame = false;
 
             }
+            if (tiempoRestante > 0)
+            {
+                tiempoRestante += 5f; // Añadir 5 segundos por cada coincidencia
+            }
+            if (inGame == false)
+            {
+                
+            }
         }
         else
         {
@@ -249,15 +260,13 @@ public class GameManager : MonoBehaviour
     {
         int scoreFinal = score - (errores * 5); // Ejemplo: restar 5 puntos por cada error
         this.scoreFinal.text = $"Score: {score} \n Errores: {errores} \n Score final: {scoreFinal}";
+        this.score.gameObject.SetActive(false);
+        this.timerText.gameObject.SetActive(false);
         this.scoreFinal.gameObject.SetActive(true);
     }
 
 
-    public void ReiniciarJuego()
-    {
-        // Recargar la escena actual para reiniciar el juego
-        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-    }
+
 
 
 

@@ -2,6 +2,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.UIElements;
 public class GameManager : MonoBehaviour
 {
     public GameObject tarjetaPrefab;
@@ -14,12 +16,18 @@ public class GameManager : MonoBehaviour
     public List<string> personajes; // Ejemplo: "Killa", "Knight", ...  
     private List<string> personajesParaTablero = new List<string>();
 
+    private List<GameObject> tarjetasEnTablero = new List<GameObject>();
+
+    public Button reiniciarButton;
+
     public MovimientoTarjeta primerTarjeta;
     public MovimientoTarjeta segundaTarjeta;
 
     public float tiempoEspera = 0.5f;
     public bool comparando = false;
     public bool coincidenciaEncontrada = false;
+
+    public bool inGame = true;
 
     public int filas = 2;
     public int columnas = 6;
@@ -29,11 +37,10 @@ public class GameManager : MonoBehaviour
     private int puntuacionActual = 0;
 
     public TextMeshProUGUI timerText;
-
     public int errores = 0;
     private float tiempoRestante = 60f; // Tiempo en segundos
 
-
+    public TextMeshProUGUI scoreFinal;
 
     private void Update()
     {
@@ -50,6 +57,14 @@ public class GameManager : MonoBehaviour
             timerText.text = "0";
             // Aquí puedes agregar la lógica para manejar el fin del tiempo
         }
+
+
+
+
+        if (tiempoRestante == 0 && comparando == false && inGame == false)
+        {
+            MostrarScoreFinal(puntuacionActual, errores);
+        }
     }
 
 
@@ -58,7 +73,7 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get; private set; }
 
-    void Start()
+    void Awake()
     {
         if (Instance == null)
             Instance = this;
@@ -68,6 +83,19 @@ public class GameManager : MonoBehaviour
         }
         puntuacionActual = 0;
         score.text = puntuacionActual.ToString();
+        tiempoRestante = 60f;
+        inGame = true;
+        scoreFinal.text = "";
+        errores = 0;
+        primerTarjeta = null;
+        segundaTarjeta = null;
+        comparando = false;
+        coincidenciaEncontrada = false;
+        tarjetasEnTablero.Clear();
+
+
+
+        scoreFinal.gameObject.SetActive(false);
 
 
         PrepararImagenes();
@@ -143,6 +171,8 @@ public class GameManager : MonoBehaviour
                 indiceImagen++;
             }
         }
+        // Almacenar todas las tarjetas en la lista
+        tarjetasEnTablero.AddRange(GameObject.FindGameObjectsWithTag("Tarjeta"));
     }
 
 
@@ -177,6 +207,16 @@ public class GameManager : MonoBehaviour
             // Destruir las tarjetas coincidentes
             Destroy(primerTarjeta.gameObject);
             Destroy(segundaTarjeta.gameObject);
+            tarjetasEnTablero.Remove(primerTarjeta.gameObject);
+            tarjetasEnTablero.Remove(segundaTarjeta.gameObject);
+
+            // Verificar si quedan tarjetas en el tablero
+            if (tarjetasEnTablero.Count == 0)
+            {
+                MostrarScoreFinal(puntuacionActual, errores);
+                inGame = false;
+
+            }
         }
         else
         {
@@ -196,13 +236,27 @@ public class GameManager : MonoBehaviour
 
     public void ActualizarScore(int puntos)
     {
-        
-        puntuacionActual = int.Parse(score.text);
+
+        int.TryParse(score.text, out puntuacionActual);
         puntuacionActual += puntos;
         score.text = puntuacionActual.ToString();
-        
+
     }
 
+
+    public void MostrarScoreFinal(int score, int errores)
+    {
+        int scoreFinal = score - (errores * 5); // Ejemplo: restar 5 puntos por cada error
+        this.scoreFinal.text = $"Score: {score} \n Errores: {errores} \n Score final: {scoreFinal}";
+        this.scoreFinal.gameObject.SetActive(true);
+    }
+
+
+    public void ReiniciarJuego()
+    {
+        // Recargar la escena actual para reiniciar el juego
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+    }
 
 
 

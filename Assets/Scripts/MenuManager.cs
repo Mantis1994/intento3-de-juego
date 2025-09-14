@@ -67,15 +67,6 @@ public class MenuManager : MonoBehaviour
 
 
 
-    void IngresarUsuario()
-    {
-        // Lógica para ingresar el usuario
-        Debug.Log("Usuario ingresado");
-    }
-
-
-
-
     public void GuardarTop3(int nuevoScore, string nuevoUsuario)
 {
     // Leer los actuales

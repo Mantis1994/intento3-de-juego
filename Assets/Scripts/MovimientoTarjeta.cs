@@ -64,6 +64,7 @@ public class MovimientoTarjeta : MonoBehaviour
         Vector2 escalaInicial = transform.localScale;
         Vector2 escalaIntermedia = new Vector2(0f, escalaInicial.y); ;
         Vector2 escalaFinal = new Vector2(escalaInicial.x * -1, escalaInicial.y);
+        AudioManager.Instance.EfectoDeSonido("Pick");
 
         float tiempo = 0;
 

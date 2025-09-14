@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
         {
             // Tiempo agotado
             timerText.text = "0";
-            // Aquí puedes agregar la lógica para manejar el fin del tiempo
+            
         }
 
 
@@ -106,6 +106,11 @@ public class GameManager : MonoBehaviour
         SpawnearTablero();
     }
 
+    void Start()
+    {
+        PlayMusic();
+    }
+
     void PrepararImagenes()
     {
         if (imagenes.Count != personajes.Count)
@@ -139,6 +144,7 @@ public class GameManager : MonoBehaviour
             personajesParaTablero[i] = personajesParaTablero[randomIndex];
             personajesParaTablero[randomIndex] = tempID;
         }
+        
     }
 
     void SpawnearTablero()
@@ -211,6 +217,7 @@ public class GameManager : MonoBehaviour
             // Destruir las tarjetas coincidentes
             Destroy(primerTarjeta.gameObject);
             Destroy(segundaTarjeta.gameObject);
+            AudioManager.Instance.EfectoDeSonido("Acierto");
             tarjetasEnTablero.Remove(primerTarjeta.gameObject);
             tarjetasEnTablero.Remove(segundaTarjeta.gameObject);
 
@@ -219,16 +226,8 @@ public class GameManager : MonoBehaviour
             {
                 MostrarScoreFinal(puntuacionActual, errores);
                 inGame = false;
-
             }
-            if (tiempoRestante > 0)
-            {
-                tiempoRestante += 5f; // Añadir 5 segundos por cada coincidencia
-            }
-            if (inGame == false)
-            {
-                
-            }
+         
         }
         else
         {
@@ -268,8 +267,13 @@ public class GameManager : MonoBehaviour
 
 
 
-
-
+    public void PlayMusic()
+    {
+        AudioManager.Instance.musicSource.loop = true;
+        AudioManager.Instance.musicSource.clip = AudioManager.Instance.musicaInGame;
+        AudioManager.Instance.musicSource.Play();
+        Debug.Log("Reproduciendo música de fondo.");
+    }
 
 
 

@@ -263,6 +263,7 @@ public class GameManager : MonoBehaviour
         this.score.gameObject.SetActive(false);
         this.timerText.gameObject.SetActive(false);
         this.scoreFinal.gameObject.SetActive(true);
+        MenuManager.Instance.GuardarTop3(scoreFinal, MenuManager.nombreUsuario);
     }
 
 

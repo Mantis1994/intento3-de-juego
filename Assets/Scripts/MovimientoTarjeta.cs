@@ -39,10 +39,16 @@ public class MovimientoTarjeta : MonoBehaviour
     // Detecta el click en la tarjeta y llama al flip si no esta girando o volteada
     void OnMouseOver()
     {
-
-        if (Input.GetMouseButtonDown(0) && !girando && !volteada && gameManager.comparando == false)
+        if (!gameManager.inGame == false)
         {
-            StartCoroutine(FlipTarjeta());
+
+
+            if (Input.GetMouseButtonDown(0) && !girando && !volteada && gameManager.comparando == false)
+            {
+                StartCoroutine(FlipTarjeta());
+            }
+            
+
         }
 
     }
@@ -79,7 +85,7 @@ public class MovimientoTarjeta : MonoBehaviour
         else
         {
             sr.sprite = frenteTarjeta; // Usa la imagen fija asignada por GameManager
-           
+
         }
 
 

@@ -8,6 +8,9 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public GameObject tarjetaPrefab;
+
+    public GameObject menuPausa;
+    public bool juegoPausado = false;
     public Transform tablero;
     public List<Sprite> imagenes; // 6 imágenes
 
@@ -21,12 +24,15 @@ public class GameManager : MonoBehaviour
 
     public Button reiniciarButton;
 
+    public MovimientoTarjeta tarjetaScript;
+
     public MovimientoTarjeta primerTarjeta;
     public MovimientoTarjeta segundaTarjeta;
 
     public float tiempoEspera = 0.5f;
     public bool comparando = false;
     public bool coincidenciaEncontrada = false;
+    public bool algunaGirando = false;
 
     public bool inGame = true;
 
@@ -58,15 +64,21 @@ public class GameManager : MonoBehaviour
         {
             // Tiempo agotado
             timerText.text = "0";
-            
+
         }
-
-
-
-
+        // Mostrar la puntuación final cuando el tiempo se agota
         if (tiempoRestante == 0 && comparando == false && inGame == false)
         {
             MostrarScoreFinal(puntuacionActual, errores);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape) && inGame == true)
+        {
+
+
+            AlternarPausa();
+
+
         }
     }
 
@@ -96,6 +108,9 @@ public class GameManager : MonoBehaviour
         coincidenciaEncontrada = false;
         tarjetasEnTablero.Clear();
         usuarioText.text = MenuManager.nombreUsuario;
+        tarjetaScript = tarjetaPrefab.GetComponent<MovimientoTarjeta>();
+
+
 
 
 
@@ -105,6 +120,7 @@ public class GameManager : MonoBehaviour
         PrepararImagenes();
         SpawnearTablero();
     }
+
 
     void Start()
     {
@@ -144,7 +160,7 @@ public class GameManager : MonoBehaviour
             personajesParaTablero[i] = personajesParaTablero[randomIndex];
             personajesParaTablero[randomIndex] = tempID;
         }
-        
+
     }
 
     void SpawnearTablero()
@@ -227,15 +243,17 @@ public class GameManager : MonoBehaviour
                 MostrarScoreFinal(puntuacionActual, errores);
                 inGame = false;
             }
-         
+
         }
         else
         {
             // No hay coincidencia, voltear las tarjetas de nuevo
             coincidenciaEncontrada = false;
             errores++;
+            Debug.Log("ANTES DE FUNCIÓN OCULTAR");
             primerTarjeta.Ocultar();
             segundaTarjeta.Ocultar();
+            Debug.Log("despúes DE FUNCIÓN OCULTAR");
         }
 
         primerTarjeta = null;
@@ -269,13 +287,54 @@ public class GameManager : MonoBehaviour
 
     public void PlayMusic()
     {
+
+
+
         AudioManager.Instance.musicSource.loop = true;
         AudioManager.Instance.musicSource.clip = AudioManager.Instance.musicaInGame;
         AudioManager.Instance.musicSource.Play();
         Debug.Log("Reproduciendo música de fondo.");
+
+
     }
 
 
+    public void VolverAlInicio()
+    {
+        SceneManager.LoadScene("MenuScene");
+    }
+
+
+    public void AlternarPausa()
+    {
+
+
+        if (juegoPausado == false)
+        {
+            menuPausa.SetActive(true);
+            Time.timeScale = 0f; // Pausar el juego
+            AudioManager.Instance.musicSource.Pause();
+            juegoPausado = !juegoPausado;
+        }
+        else
+        {
+            menuPausa.SetActive(false);
+            Time.timeScale = 1f; // Reanudar el juego
+            AudioManager.Instance.musicSource.UnPause();
+            juegoPausado = !juegoPausado;
+        }
+
+    }
+    
+
+    public bool PuedeGirarTarjeta(MovimientoTarjeta tarjeta)
+{
+    // Solo permite girar si no se está comparando y hay menos de 2 tarjetas giradas
+    if (comparando) return false;
+    if (primerTarjeta == null) return true;
+    if (segundaTarjeta == null && tarjeta != primerTarjeta) return true;
+    return false;
+}
 
 
 }

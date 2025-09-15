@@ -57,20 +57,13 @@ public class MenuManager : MonoBehaviour
     {
         // Recargar la escena actual para reiniciar el juego
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+        AudioManager.Instance.musicSource.UnPause();
+        Time.timeScale = 1f; // Asegurarse de que el tiempo esté en 1
     }
 
     public void InicioMenu()
     {
         SceneManager.LoadScene("MenuScene");
-    }
-
-
-
-
-    void IngresarUsuario()
-    {
-        // Lógica para ingresar el usuario
-        Debug.Log("Usuario ingresado");
     }
 
 

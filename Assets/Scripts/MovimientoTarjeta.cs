@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.U2D.Animation;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ public class MovimientoTarjeta : MonoBehaviour
     public GameObject tarjeta;
 
     public GameManager gameManager;
+    public bool clickDetectado = false;
 
     public SpriteRenderer sr;
 
@@ -38,20 +40,15 @@ public class MovimientoTarjeta : MonoBehaviour
 
     // Detecta el click en la tarjeta y llama al flip si no esta girando o volteada
     void OnMouseOver()
+{
+    if (Input.GetMouseButtonDown(0) && !girando && !volteada && gameManager.inGame && !gameManager.comparando && !GameManager.Instance.algunaGirando)
     {
-        if (!gameManager.inGame == false)
+        if (gameManager.PuedeGirarTarjeta(this))
         {
-
-
-            if (Input.GetMouseButtonDown(0) && !girando && !volteada && gameManager.comparando == false)
-            {
-                StartCoroutine(FlipTarjeta());
-            }
-            
-
+            StartCoroutine(FlipTarjeta());
         }
-
     }
+}
 
 
 
@@ -59,11 +56,15 @@ public class MovimientoTarjeta : MonoBehaviour
     // EL ENUMERATOR ES PARA HACER EL FLIP DE LA TARJETA, ADEMAS CUANDO LLEGA A LA MITAD SE CAMBIA EL SPRITE POR LA DEL DORSODE LA TARJETA
     public IEnumerator FlipTarjeta()
     {
+
+
+        gameManager.algunaGirando = true;
         girando = true;
         volteada = !volteada;
         Vector2 escalaInicial = transform.localScale;
         Vector2 escalaIntermedia = new Vector2(0f, escalaInicial.y); ;
         Vector2 escalaFinal = new Vector2(escalaInicial.x * -1, escalaInicial.y);
+        AudioManager.Instance.EfectoDeSonido("Pick");
 
         float tiempo = 0;
 
@@ -99,12 +100,14 @@ public class MovimientoTarjeta : MonoBehaviour
             yield return null;
         }
 
-        girando = false;
 
         if (volteada)
         {
             gameManager.CompararTarjetas(this);
         }
+        girando = false;
+        gameManager.algunaGirando = false;
+
     }
 
 
@@ -116,4 +119,9 @@ public class MovimientoTarjeta : MonoBehaviour
             StartCoroutine(FlipTarjeta());
         }
     }
+
+
+
+
+
 }

@@ -281,9 +281,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 629ddd73418b95643a8e16699ee3cf79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tarjetaScript: {fileID: 0}
+  primerTarjeta: {fileID: 0}
+  segundaTarjeta: {fileID: 0}
   tarjetaPrefab: {fileID: 3536634303831936419, guid: 0e600d2a6981beb4ca5f0d4f9dc6fc32, type: 3}
   menuPausa: {fileID: 1314161543}
-  juegoPausado: 0
   tablero: {fileID: 1711809318}
   imagenes:
   - {fileID: -6350219425847431076, guid: d1c3d88f0facdcc46aa0eaed58ea6a14, type: 3}
@@ -299,21 +301,19 @@ MonoBehaviour:
   - Shturman
   - Taguilla
   - Zyriachy
-  tarjetaScript: {fileID: 0}
-  primerTarjeta: {fileID: 0}
-  segundaTarjeta: {fileID: 0}
-  tiempoEspera: 0.5
+  juegoPausado: 0
   comparando: 0
   coincidenciaEncontrada: 0
   algunaGirando: 0
   inGame: 1
+  errores: 0
   filas: 3
   columnas: 4
   separacion: 2
+  tiempoEspera: 0.5
   score: {fileID: 439929195}
   usuarioText: {fileID: 2029998412}
   timerText: {fileID: 173670981}
-  errores: 0
   scoreFinal: {fileID: 1714601990}
 --- !u!4 &82839620
 Transform:

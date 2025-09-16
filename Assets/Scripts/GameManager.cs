@@ -7,49 +7,64 @@ using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
-    public GameObject tarjetaPrefab;
-
-    public GameObject menuPausa;
-    public bool juegoPausado = false;
-    public Transform tablero;
-    public List<Sprite> imagenes; // 6 imágenes
-
-    private List<Sprite> imagenesParaTablero = new List<Sprite>();
-
-    // Nueva lista para los IDs de personajes
-    public List<string> personajes; // Ejemplo: "Killa", "Knight", ...  
-    private List<string> personajesParaTablero = new List<string>();
-
-    private List<GameObject> tarjetasEnTablero = new List<GameObject>();
-
-    public Button reiniciarButton;
-
     public MovimientoTarjeta tarjetaScript;
-
     public MovimientoTarjeta primerTarjeta;
     public MovimientoTarjeta segundaTarjeta;
 
-    public float tiempoEspera = 0.5f;
+
+
+
+    public GameObject tarjetaPrefab;
+    public GameObject menuPausa;
+    public Transform tablero;
+
+
+
+    public List<Sprite> imagenes; // 6 imágenes
+    private List<Sprite> imagenesParaTablero = new List<Sprite>();
+    // Nueva lista para los IDs de personajes
+    public List<string> personajes; // Ejemplo: "Killa", "Knight", ...  
+    private List<string> personajesParaTablero = new List<string>();
+    private List<GameObject> tarjetasEnTablero = new List<GameObject>();
+
+    
+    public Button reiniciarButton;
+
+
+
+    public bool juegoPausado = false;
     public bool comparando = false;
     public bool coincidenciaEncontrada = false;
     public bool algunaGirando = false;
-
     public bool inGame = true;
 
+
+
+
+
+
+
+
+    public int errores = 0;
+    private int puntuacionActual = 0;
     public int filas = 2;
     public int columnas = 6;
     public float separacion = 1.2f;
-
-    public TextMeshProUGUI score;
-
-    public TextMeshProUGUI usuarioText;
-    private int puntuacionActual = 0;
-
-    public TextMeshProUGUI timerText;
-    public int errores = 0;
+    public float tiempoEspera = 0.5f;
     private float tiempoRestante = 60f; // Tiempo en segundos
 
+
+
+
+
+
+
+    public TextMeshProUGUI score;
+    public TextMeshProUGUI usuarioText;
+    public TextMeshProUGUI timerText;
     public TextMeshProUGUI scoreFinal;
+
+
 
     private void Update()
     {
@@ -155,8 +170,19 @@ public class GameManager : MonoBehaviour
             imagenesParaTablero[i] = imagenesParaTablero[randomIndex];
             imagenesParaTablero[randomIndex] = tempImg;
 
+            // Mezclar imagenes x2
+
+            tempImg = imagenesParaTablero[i];
+            imagenesParaTablero[i] = imagenesParaTablero[randomIndex];
+            imagenesParaTablero[randomIndex] = tempImg;
+
             // Mezclar personajes
             string tempID = personajesParaTablero[i];
+            personajesParaTablero[i] = personajesParaTablero[randomIndex];
+            personajesParaTablero[randomIndex] = tempID;
+
+            // Mezclar personajes x2
+            tempID = personajesParaTablero[i];
             personajesParaTablero[i] = personajesParaTablero[randomIndex];
             personajesParaTablero[randomIndex] = tempID;
         }
@@ -325,16 +351,16 @@ public class GameManager : MonoBehaviour
         }
 
     }
-    
+
 
     public bool PuedeGirarTarjeta(MovimientoTarjeta tarjeta)
-{
-    // Solo permite girar si no se está comparando y hay menos de 2 tarjetas giradas
-    if (comparando) return false;
-    if (primerTarjeta == null) return true;
-    if (segundaTarjeta == null && tarjeta != primerTarjeta) return true;
-    return false;
-}
+    {
+        // Solo permite girar si no se está comparando y hay menos de 2 tarjetas giradas
+        if (comparando) return false;
+        if (primerTarjeta == null) return true;
+        if (segundaTarjeta == null && tarjeta != primerTarjeta) return true;
+        return false;
+    }
 
 
 }

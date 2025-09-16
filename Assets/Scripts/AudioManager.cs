@@ -5,16 +5,22 @@ public class AudioManager : MonoBehaviour
 {
     public AudioSource musicSource;
     public AudioSource sfxSource;
-
     public AudioClip musicaInGame;
+
 
     public List<AudioEntry> efectoDeSonido; // Asigna los audios y nombres desde el inspector
     public Dictionary<string, AudioClip> efectoDeSonidoDict;
 
+
+
     public List<AudioEntry> audioClips; // Asigna los audios y nombres desde el inspector
     private Dictionary<string, AudioClip> audioDict;
 
+
+
     public static AudioManager Instance { get; private set; }
+
+
 
     void Awake()
     {

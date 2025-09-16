@@ -7,14 +7,11 @@ public class MenuManager : MonoBehaviour
 {
     public static MenuManager Instance { get; private set; }
 
-    int max1, max2, max3;
-    string user1, user2, user3;
-
     public TextMeshProUGUI top3Puntajes; // Asigna desde el inspector
-
-
-
     public TMP_InputField usuarioText; // Asigna desde el inspector
+
+
+
     public static string nombreUsuario; // Variable estática para guardar el nombre
 
 

@@ -18,11 +18,11 @@ public class MovimientoTarjeta : MonoBehaviour
     public Sprite dorsoTarjeta;
     public Sprite frenteTarjeta;
 
-
     public bool girando = false;
     public bool volteada = false;
 
     public float duracion = 0.3f;
+
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

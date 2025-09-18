@@ -5,6 +5,8 @@ using TMPro;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering;
+using Unity.VisualScripting;
 public class GameManager : MonoBehaviour
 {
     public MovimientoTarjeta tarjetaScript;
@@ -16,7 +18,11 @@ public class GameManager : MonoBehaviour
 
     public GameObject tarjetaPrefab;
     public GameObject menuPausa;
+
+    public GameObject explosionPrefab;
     public Transform tablero;
+
+
 
 
 
@@ -27,7 +33,7 @@ public class GameManager : MonoBehaviour
     private List<string> personajesParaTablero = new List<string>();
     private List<GameObject> tarjetasEnTablero = new List<GameObject>();
 
-    
+
     public Button reiniciarButton;
 
 
@@ -170,21 +176,14 @@ public class GameManager : MonoBehaviour
             imagenesParaTablero[i] = imagenesParaTablero[randomIndex];
             imagenesParaTablero[randomIndex] = tempImg;
 
-            // Mezclar imagenes x2
 
-            tempImg = imagenesParaTablero[i];
-            imagenesParaTablero[i] = imagenesParaTablero[randomIndex];
-            imagenesParaTablero[randomIndex] = tempImg;
 
             // Mezclar personajes
             string tempID = personajesParaTablero[i];
             personajesParaTablero[i] = personajesParaTablero[randomIndex];
             personajesParaTablero[randomIndex] = tempID;
 
-            // Mezclar personajes x2
-            tempID = personajesParaTablero[i];
-            personajesParaTablero[i] = personajesParaTablero[randomIndex];
-            personajesParaTablero[randomIndex] = tempID;
+
         }
 
     }
@@ -256,12 +255,26 @@ public class GameManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(primerTarjeta.personajeID); // Reproduce la voz del personaje
             ActualizarScore(10); // Sumar puntos por coincidencia
 
-            // Destruir las tarjetas coincidentes
+            var explosion1 = Instantiate(explosionPrefab, primerTarjeta.transform.position, Quaternion.identity);
+            var explosion2 = Instantiate(explosionPrefab, segundaTarjeta.transform.position, Quaternion.identity);
+
+            // Ocultar los sprites antes de destruir las tarjetas
+
+           
+           
+
+            Destroy(explosion1,0.7f);
+            Destroy(explosion2,0.7f);
+
             Destroy(primerTarjeta.gameObject);
             Destroy(segundaTarjeta.gameObject);
             AudioManager.Instance.EfectoDeSonido("Acierto");
+
+
+
             tarjetasEnTablero.Remove(primerTarjeta.gameObject);
             tarjetasEnTablero.Remove(segundaTarjeta.gameObject);
+
 
             // Verificar si quedan tarjetas en el tablero
             if (tarjetasEnTablero.Count == 0)

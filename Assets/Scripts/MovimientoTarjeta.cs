@@ -18,11 +18,11 @@ public class MovimientoTarjeta : MonoBehaviour
     public Sprite dorsoTarjeta;
     public Sprite frenteTarjeta;
 
-
     public bool girando = false;
     public bool volteada = false;
 
     public float duracion = 0.3f;
+
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -40,15 +40,16 @@ public class MovimientoTarjeta : MonoBehaviour
 
     // Detecta el click en la tarjeta y llama al flip si no esta girando o volteada
     void OnMouseOver()
-{
-    if (Input.GetMouseButtonDown(0) && !girando && !volteada && gameManager.inGame && !gameManager.comparando && !GameManager.Instance.algunaGirando)
     {
-        if (gameManager.PuedeGirarTarjeta(this))
+        if (Input.GetMouseButtonDown(0) && !girando && !volteada && gameManager.inGame && !gameManager.comparando && !GameManager.Instance.algunaGirando)
         {
-            StartCoroutine(FlipTarjeta());
+           
+            if (gameManager.PuedeGirarTarjeta(this))
+            {
+                StartCoroutine(FlipTarjeta());
+            }
         }
     }
-}
 
 
 
@@ -56,6 +57,9 @@ public class MovimientoTarjeta : MonoBehaviour
     // EL ENUMERATOR ES PARA HACER EL FLIP DE LA TARJETA, ADEMAS CUANDO LLEGA A LA MITAD SE CAMBIA EL SPRITE POR LA DEL DORSODE LA TARJETA
     public IEnumerator FlipTarjeta()
     {
+
+
+
 
 
         gameManager.algunaGirando = true;

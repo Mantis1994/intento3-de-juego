@@ -5,51 +5,77 @@ using TMPro;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering;
+using Unity.VisualScripting;
+using Unity.VisualScripting.AssemblyQualifiedNameParser;
 public class GameManager : MonoBehaviour
 {
-    public GameObject tarjetaPrefab;
-
-    public GameObject menuPausa;
-    public bool juegoPausado = false;
-    public Transform tablero;
-    public List<Sprite> imagenes; // 6 imágenes
-
-    private List<Sprite> imagenesParaTablero = new List<Sprite>();
-
-    // Nueva lista para los IDs de personajes
-    public List<string> personajes; // Ejemplo: "Killa", "Knight", ...  
-    private List<string> personajesParaTablero = new List<string>();
-
-    private List<GameObject> tarjetasEnTablero = new List<GameObject>();
-
-    public Button reiniciarButton;
-
     public MovimientoTarjeta tarjetaScript;
-
     public MovimientoTarjeta primerTarjeta;
     public MovimientoTarjeta segundaTarjeta;
 
-    public float tiempoEspera = 0.5f;
+
+
+
+    public GameObject tarjetaPrefab;
+    public GameObject menuPausa;
+
+    public GameObject explosionPrefab;
+    public Transform tablero;
+
+    private Coroutine parpadeoCoroutine = null;
+
+
+
+
+
+    public List<Sprite> imagenes; // 6 imágenes
+    private List<Sprite> imagenesParaTablero = new List<Sprite>();
+    // Nueva lista para los IDs de personajes
+    public List<string> personajes; // Ejemplo: "Killa", "Knight", ...  
+    private List<string> personajesParaTablero = new List<string>();
+    private List<GameObject> tarjetasEnTablero = new List<GameObject>();
+
+
+    public Button reiniciarButton;
+
+    public bool juegoPausado = false;
     public bool comparando = false;
     public bool coincidenciaEncontrada = false;
     public bool algunaGirando = false;
-
     public bool inGame = true;
 
+    public bool timeOut = false;
+
+
+
+
+
+
+
+
+    public int errores = 0;
+    private int puntuacionActual = 0;
     public int filas = 2;
     public int columnas = 6;
     public float separacion = 1.2f;
+    public float tiempoEspera = 0.5f;
+    private float tiempoRestante = 45f; // Tiempo en segundos
+
+
+
+
+
+
 
     public TextMeshProUGUI score;
-
     public TextMeshProUGUI usuarioText;
-    private int puntuacionActual = 0;
-
     public TextMeshProUGUI timerText;
-    public int errores = 0;
-    private float tiempoRestante = 60f; // Tiempo en segundos
-
     public TextMeshProUGUI scoreFinal;
+
+    public GameObject fondoScoreFinal;
+
+
 
     private void Update()
     {
@@ -67,18 +93,27 @@ public class GameManager : MonoBehaviour
 
         }
         // Mostrar la puntuación final cuando el tiempo se agota
-        if (tiempoRestante == 0 && comparando == false && inGame == false)
+        if (tiempoRestante <= 0 && comparando == false && inGame == true)
         {
+            inGame = false;
+            Debug.Log("TIEMPO AGOTADO, MOSTRANDO PUNTUACIÓN FINAL");
+            timeOut = true;
             MostrarScoreFinal(puntuacionActual, errores);
         }
 
         if (Input.GetKeyDown(KeyCode.Escape) && inGame == true)
         {
-
-
             AlternarPausa();
+        }
 
 
+        if (tiempoRestante <= 10f && juegoPausado == false && inGame == true)
+        {
+            // Iniciar el parpadeo si no está ya en curso
+            if (parpadeoCoroutine == null)
+            {
+                parpadeoCoroutine = StartCoroutine(ParpadeoTimer());
+            }
         }
     }
 
@@ -98,7 +133,6 @@ public class GameManager : MonoBehaviour
         }
         puntuacionActual = 0;
         score.text = puntuacionActual.ToString();
-        tiempoRestante = 60f;
         inGame = true;
         scoreFinal.text = "";
         errores = 0;
@@ -114,7 +148,7 @@ public class GameManager : MonoBehaviour
 
 
 
-        scoreFinal.gameObject.SetActive(false);
+        fondoScoreFinal.SetActive(false);
 
 
         PrepararImagenes();
@@ -155,10 +189,14 @@ public class GameManager : MonoBehaviour
             imagenesParaTablero[i] = imagenesParaTablero[randomIndex];
             imagenesParaTablero[randomIndex] = tempImg;
 
+
+
             // Mezclar personajes
             string tempID = personajesParaTablero[i];
             personajesParaTablero[i] = personajesParaTablero[randomIndex];
             personajesParaTablero[randomIndex] = tempID;
+
+
         }
 
     }
@@ -230,12 +268,21 @@ public class GameManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(primerTarjeta.personajeID); // Reproduce la voz del personaje
             ActualizarScore(10); // Sumar puntos por coincidencia
 
-            // Destruir las tarjetas coincidentes
+            var explosion1 = Instantiate(explosionPrefab, primerTarjeta.transform.position, Quaternion.identity);
+            var explosion2 = Instantiate(explosionPrefab, segundaTarjeta.transform.position, Quaternion.identity);
+
+            Destroy(explosion1, 0.7f);
+            Destroy(explosion2, 0.7f);
+
             Destroy(primerTarjeta.gameObject);
             Destroy(segundaTarjeta.gameObject);
             AudioManager.Instance.EfectoDeSonido("Acierto");
+
+
+
             tarjetasEnTablero.Remove(primerTarjeta.gameObject);
             tarjetasEnTablero.Remove(segundaTarjeta.gameObject);
+
 
             // Verificar si quedan tarjetas en el tablero
             if (tarjetasEnTablero.Count == 0)
@@ -275,11 +322,22 @@ public class GameManager : MonoBehaviour
 
     public void MostrarScoreFinal(int score, int errores)
     {
-        int scoreFinal = score - (errores * 5); // Ejemplo: restar 5 puntos por cada error
+        if (score < 0) score = 0; // Asegurarse de que el score no sea negativo
+        int scoreFinal = score - (errores * 3); // Ejemplo: restar 3 puntos por cada error
+        if (scoreFinal < 0) scoreFinal = 0; // Asegurarse de que el score final no sea negativo
+
+
+        // Aplicar penalización por tiempo agotado
+        if (timeOut == true)
+        {
+            scoreFinal = scoreFinal / 2; // Penalización por tiempo agotado
+        }
+
+
         this.scoreFinal.text = $"Score: {score} \n Errores: {errores} \n Score final: {scoreFinal}";
         this.score.gameObject.SetActive(false);
         this.timerText.gameObject.SetActive(false);
-        this.scoreFinal.gameObject.SetActive(true);
+        this.fondoScoreFinal.SetActive(true);
         MenuManager.Instance.GuardarTop3(scoreFinal, MenuManager.nombreUsuario);
     }
 
@@ -325,16 +383,37 @@ public class GameManager : MonoBehaviour
         }
 
     }
-    
+
 
     public bool PuedeGirarTarjeta(MovimientoTarjeta tarjeta)
-{
-    // Solo permite girar si no se está comparando y hay menos de 2 tarjetas giradas
-    if (comparando) return false;
-    if (primerTarjeta == null) return true;
-    if (segundaTarjeta == null && tarjeta != primerTarjeta) return true;
-    return false;
-}
+    {
+        // Solo permite girar si no se está comparando y hay menos de 2 tarjetas giradas
+        if (comparando) return false;
+        if (primerTarjeta == null) return true;
+        if (segundaTarjeta == null && tarjeta != primerTarjeta) return true;
+        return false;
+    }
+
+
+
+
+
+
+
+    IEnumerator <WaitForSeconds> ParpadeoTimer()
+    {
+        bool rojo = false;
+        while (tiempoRestante > 0 && tiempoRestante <= 10f)
+        {
+            rojo = !rojo;
+            timerText.color = rojo ? Color.red : Color.white;
+            yield return new WaitForSeconds(0.5f);
+        }
+        timerText.color = Color.white; // Asegurarse de que el color vuelva a blanco al salir
+        parpadeoCoroutine = null; // Resetear la referencia al coroutine
+    }
+
+
 
 
 }

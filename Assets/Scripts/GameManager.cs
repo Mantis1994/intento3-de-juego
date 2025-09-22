@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 using UnityEngine.Rendering;
 using Unity.VisualScripting;
+using Unity.VisualScripting.AssemblyQualifiedNameParser;
 public class GameManager : MonoBehaviour
 {
     public MovimientoTarjeta tarjetaScript;
@@ -22,6 +23,8 @@ public class GameManager : MonoBehaviour
     public GameObject explosionPrefab;
     public Transform tablero;
 
+    private Coroutine parpadeoCoroutine = null;
+
 
 
 
@@ -36,13 +39,13 @@ public class GameManager : MonoBehaviour
 
     public Button reiniciarButton;
 
-
-
     public bool juegoPausado = false;
     public bool comparando = false;
     public bool coincidenciaEncontrada = false;
     public bool algunaGirando = false;
     public bool inGame = true;
+
+    public bool timeOut = false;
 
 
 
@@ -57,7 +60,7 @@ public class GameManager : MonoBehaviour
     public int columnas = 6;
     public float separacion = 1.2f;
     public float tiempoEspera = 0.5f;
-    private float tiempoRestante = 60f; // Tiempo en segundos
+    private float tiempoRestante = 45f; // Tiempo en segundos
 
 
 
@@ -69,6 +72,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI usuarioText;
     public TextMeshProUGUI timerText;
     public TextMeshProUGUI scoreFinal;
+
+    public GameObject fondoScoreFinal;
 
 
 
@@ -88,18 +93,27 @@ public class GameManager : MonoBehaviour
 
         }
         // Mostrar la puntuación final cuando el tiempo se agota
-        if (tiempoRestante == 0 && comparando == false && inGame == false)
+        if (tiempoRestante <= 0 && comparando == false && inGame == true)
         {
+            inGame = false;
+            Debug.Log("TIEMPO AGOTADO, MOSTRANDO PUNTUACIÓN FINAL");
+            timeOut = true;
             MostrarScoreFinal(puntuacionActual, errores);
         }
 
         if (Input.GetKeyDown(KeyCode.Escape) && inGame == true)
         {
-
-
             AlternarPausa();
+        }
 
 
+        if (tiempoRestante <= 10f && juegoPausado == false && inGame == true)
+        {
+            // Iniciar el parpadeo si no está ya en curso
+            if (parpadeoCoroutine == null)
+            {
+                parpadeoCoroutine = StartCoroutine(ParpadeoTimer());
+            }
         }
     }
 
@@ -119,7 +133,6 @@ public class GameManager : MonoBehaviour
         }
         puntuacionActual = 0;
         score.text = puntuacionActual.ToString();
-        tiempoRestante = 60f;
         inGame = true;
         scoreFinal.text = "";
         errores = 0;
@@ -135,7 +148,7 @@ public class GameManager : MonoBehaviour
 
 
 
-        scoreFinal.gameObject.SetActive(false);
+        fondoScoreFinal.SetActive(false);
 
 
         PrepararImagenes();
@@ -258,13 +271,8 @@ public class GameManager : MonoBehaviour
             var explosion1 = Instantiate(explosionPrefab, primerTarjeta.transform.position, Quaternion.identity);
             var explosion2 = Instantiate(explosionPrefab, segundaTarjeta.transform.position, Quaternion.identity);
 
-            // Ocultar los sprites antes de destruir las tarjetas
-
-           
-           
-
-            Destroy(explosion1,0.7f);
-            Destroy(explosion2,0.7f);
+            Destroy(explosion1, 0.7f);
+            Destroy(explosion2, 0.7f);
 
             Destroy(primerTarjeta.gameObject);
             Destroy(segundaTarjeta.gameObject);
@@ -314,11 +322,22 @@ public class GameManager : MonoBehaviour
 
     public void MostrarScoreFinal(int score, int errores)
     {
-        int scoreFinal = score - (errores * 5); // Ejemplo: restar 5 puntos por cada error
+        if (score < 0) score = 0; // Asegurarse de que el score no sea negativo
+        int scoreFinal = score - (errores * 3); // Ejemplo: restar 3 puntos por cada error
+        if (scoreFinal < 0) scoreFinal = 0; // Asegurarse de que el score final no sea negativo
+
+
+        // Aplicar penalización por tiempo agotado
+        if (timeOut == true)
+        {
+            scoreFinal = scoreFinal / 2; // Penalización por tiempo agotado
+        }
+
+
         this.scoreFinal.text = $"Score: {score} \n Errores: {errores} \n Score final: {scoreFinal}";
         this.score.gameObject.SetActive(false);
         this.timerText.gameObject.SetActive(false);
-        this.scoreFinal.gameObject.SetActive(true);
+        this.fondoScoreFinal.SetActive(true);
         MenuManager.Instance.GuardarTop3(scoreFinal, MenuManager.nombreUsuario);
     }
 
@@ -374,6 +393,27 @@ public class GameManager : MonoBehaviour
         if (segundaTarjeta == null && tarjeta != primerTarjeta) return true;
         return false;
     }
+
+
+
+
+
+
+
+    IEnumerator <WaitForSeconds> ParpadeoTimer()
+    {
+        bool rojo = false;
+        while (tiempoRestante > 0 && tiempoRestante <= 10f)
+        {
+            rojo = !rojo;
+            timerText.color = rojo ? Color.red : Color.white;
+            yield return new WaitForSeconds(0.5f);
+        }
+        timerText.color = Color.white; // Asegurarse de que el color vuelva a blanco al salir
+        parpadeoCoroutine = null; // Resetear la referencia al coroutine
+    }
+
+
 
 
 }
